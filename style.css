@@ -1,0 +1,44 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.game-board{
+    height: 600px;
+    width: 600px;
+    background-color: lightgrey;
+    position: relative;
+    /*margin: 0 auto;*/
+}
+
+.box{
+    height:200px;
+    width: 200px;
+    background-color: blue;
+    position: absolute;
+    transition: all .2s ease-in-out;
+
+}
+
+.obstacle{
+
+    /*background-color: red;*/
+    position: absolute;
+}
+.food{
+    background-color: #247BA0;
+}
+
+.hit{
+    background-color: green;
+    position: absolute;
+}
+.large{
+    background-color: tomato;
+}
+.medium{
+    background-color: #30BCED;
+}
+.small{
+    background-color: #386150;
+}
