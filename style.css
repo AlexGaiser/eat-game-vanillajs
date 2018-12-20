@@ -17,19 +17,19 @@
     background-color: blue;
     position: absolute;
     transition: all .2s ease-in-out;
-
 }
 
 .block{
-
+    transition: all .6s ease-in-out;
+    border-radius: 40%;
     /*background-color: red;*/
     position: absolute;
 }
 .food{
-    background-color: #247BA0;
+    background-color: #247BA0 !important;
 }
 
-.hit{
+.hit{  
     background-color: green;
     position: absolute;
 }
@@ -43,5 +43,6 @@
     background-color: #30BCED;
 }
 .small{
+    
     background-color: #386150;
 }

@@ -4,7 +4,7 @@ console.log('start')
 const $gamespace = document.querySelector('.game-board')
 const moveSpeed = 2
 const pixelRatio = 6
-const moveIncrement = .5
+const moveIncrement = 1
 const Enemies = []
 const character = new Enemy(2,2,1,'box', 'character', 0,0)
 
@@ -18,12 +18,12 @@ const $character = document.createElement('div')
       $character.id = character.enemyClass+character.enemyId
       $character.$el = character
 
+character.$el = $character
+
+
 $gamespace.append($character)
 
 let enemy = null
-
-
-
 
 let playGrid = {x:100,
                 y:100}
@@ -48,6 +48,7 @@ function Enemy(height, width, enemyId, divclass, enemyClass, positionX, position
 function createEnemies(number, height, width, enemyId, divclass, enemyClass, positionX, positionY){
   for(let i = 0; i<number; i++){
     enemy = new Enemy(height, width, enemyId, divclass, enemyClass, Math.random() * positionX, Math.random() * positionY)
+    enemy.enemyId =  enemyClass+i    
     Enemies.push(enemy)
   }
 }
@@ -55,22 +56,20 @@ function createEnemies(number, height, width, enemyId, divclass, enemyClass, pos
 console.log(Enemies)
 
 function renderInitial(){
-  createEnemies(30, 10, 10, 1, 'block', 'medium', 95, 95)
+  createEnemies(30, 10, 10, 1, 'block', 'medium', 89, 89)
 
   createEnemies(110, 1 , 1, 1, 'block', 'food', 99, 99)
 
-  createEnemies(25, 12, 12,1, 'block', 'large', 74, 84)
+  createEnemies(25, 12, 12,1, 'block', 'large', 74, 74)
 
-  createEnemies(20,5,5,1,'block', 'small', 95,95)
-
+  createEnemies(20,5,5,1,'block', 'small', 75,75)
 
 overLapRemover(Enemies)
     if (Enemies.length<20){
-      renderInitial()
+        renderInitial()
     }
-
+renderBlocks(Enemies)
 }
-
 function move(evnt) {
       const keyCode = evnt.keyCode;
       if ([37, 38, 39, 40].includes(keyCode)) {
@@ -78,7 +77,7 @@ function move(evnt) {
       
       switch (keyCode) {
         case 37:  
-            moveLeft(); 
+          moveLeft(); 
           break;
         case 38:
           moveUp();
@@ -98,7 +97,7 @@ function moveLeft() {
     potentialMove.x -= moveSpeed
     if (inGrid(potentialMove)){
         character.x = potentialMove.x
-        $character.style.left = (character.x) * pixelRatio +'px' 
+        character.$el.style.left = (character.x) * pixelRatio +'px' 
     }
     else{
         return
@@ -110,7 +109,7 @@ function moveRight() {
     potentialMove.x += moveSpeed
     if (inGrid(potentialMove)){
         character.x = potentialMove.x
-        $character.style.left = (character.x) * pixelRatio +'px' 
+        character.$el.style.left = (character.x) * pixelRatio +'px' 
         console.log(character.x)
     }
     else{
@@ -121,9 +120,9 @@ function moveRight() {
 function moveUp() {
     potentialMove = Object.assign({}, character)
     potentialMove.y -= moveSpeed
-    if (inGrid(potentialMove)){
+    if(inGrid(potentialMove)){
         character.y = potentialMove.y
-        $character.style.top = (character.y) * pixelRatio +'px' 
+        character.$el.style.top = (character.y) * pixelRatio +'px' 
     }
     else{
         return
@@ -134,7 +133,7 @@ function moveDown() {
     potentialMove.y += moveSpeed
     if (inGrid(potentialMove)){
         character.y = potentialMove.y
-        $character.style.top = (character.y) * pixelRatio +'px' 
+        character.$el.style.top = (character.y) * pixelRatio +'px' 
     }
     else{
         return
@@ -153,25 +152,13 @@ function renderBlocks(blocks, divclass){
       $item.style.top = item.y * pixelRatio +'px'
       $item.style.height = item.height * pixelRatio +'px'
       $item.style.width = item.width *pixelRatio +'px'
-      $item.id = blocks.enemyClass+blocks.enemyId
-      item.$el = $item
+      $item.id = item.enemyId
       $gamespace.append($item)
+      item.$el = $item
     }
   }
-  // else {
-  //     let item =blocks
-  //     $item = document.createElement('div')
-  //     $item.classList.add(item.divclass)
-  //     $item.classList.add(item.enemyClass)
-  //     $item.style.left = item.x * pixelRatio +'px'
-  //     $item.style.top = item.y * pixelRatio +'px'
-  //     $item.style.height = item.height * pixelRatio +'px'
-  //     $item.style.width = item.width *pixelRatio +'px'
-  //     $item.id = blocks.enemyClass+blocks.enemyId
-  //     item.$el = $item
-  //     $gamespace.append($item)
-  // }
 }
+
 function moveEnemies (enemies){
     let modifyX;
     let modifyY;
@@ -188,17 +175,24 @@ function moveEnemies (enemies){
       else{
         modifyY = -1 * moveIncrement * Math.random()
       }
-
-      enemies[i].x += modifyX
-      // if (i ===0){console.log(enemies[i].x)}  
       
-      enemies[i].y += modifyY
+      enemyMove = Object.assign({}, enemies[i])
+          enemyMove.x += modifyX
+          enemyMove.y += modifyY
+          if (inGrid(enemyMove)){
+            enemies[i].x += modifyX
+            enemies[i].$el.style.left = (enemies[i].x*pixelRatio) + 'px'    
+            enemies[i].y += modifyY
+            enemies[i].$el.style.top = (enemies[i].y *pixelRatio) + 'px'
+      }
     }
 }
 function isFood(objectArray){
   let food = Enemies.filter((enemy => enemy.height<character.height))
   for(let item of food){
-    item.enemyClass= 'food'
+    // item.enemyClass= 'food'
+    item.$el
+    item.$el.classList.add('food')
   }
 }
 
@@ -216,11 +210,19 @@ function charCollision(character,objectArray){
   for (let i =0;  i<objectArray.length; i++){    
     if (checkCollision(character,objectArray[i])){
        if (character.height > objectArray[i].height){
+          objectArray[i].$el.remove()
+          console.log(objectArray[i].$el)
+          console.log(objectArray[i].enemyId)
+          // console.log(objectArray[i].$el.parentNode())
+          // let $element = document.getElementById(objectArray[i].enemyId)
+          // console.log('#' +objectArray[i].enemyId)
+          // $element.remove()
           objectArray.splice(i,1)
+
           character.height +=1
           character.width += 1
-          $character.style.height = (character.height * pixelRatio) +'px'
-          $character.style.width = (character.width * pixelRatio) +'px'
+          character.$el.style.height = (character.height * pixelRatio) +'px'
+          character.$el.style.width = (character.width * pixelRatio) +'px'
        }
        else{
         location.reload()
@@ -270,11 +272,12 @@ function checkWin(){
 }
 
 function update(){
+  // window.requestAnimationFrame(update)
   moveEnemies(Enemies)
 
-
+  charCollision(character, Enemies)
   // renderBlocks(character, '.box')
-  renderBlocks(Enemies, '.block')
+  // renderBlocks(Enemies, '.block')
   isFood(Enemies)
 
 
@@ -289,5 +292,5 @@ function update(){
     return
   }
 }
-// renderBlocks()
-// setInterval(update, 50)
+// window.requestAnimationFrame(update)
+setInterval(update, 550)
