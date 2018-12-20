@@ -1,133 +1,141 @@
 document.body.addEventListener('keydown',move)
-
+console.log('start')
 // const $character = document.createElement('div')
 const $gamespace = document.querySelector('.game-board')
-const moveSpeed = 1
-
+const moveSpeed = 2
 const pixelRatio = 6
-// $character.classList.add("box")
-// // const $character = document.querySelector('.box')
-// const body = document.body
-// $character.style.top = '100px'
-// $character.style.left = '100px'
-// $gamespace.append($character)
 
-// $character.classList.add("box")
-// const $character = document.querySelector('.box')
+const Enemies = []
+const character = new Enemy(2,2,1,'box', 'character', 0,0)
+
+const $character = document.createElement('div')
+      $character.classList.add(character.divclass)
+      $character.classList.add(character.enemyClass)
+      $character.style.top = character.x * pixelRatio +'px'
+      $character.style.left = character.y * pixelRatio +'px'
+      $character.style.height = character.height * pixelRatio +'px'
+      $character.style.width = character.width *pixelRatio +'px'
+      $character.id = character.enemyClass+character.enemyId
+      $character.$el = character
+
+$gamespace.append($character)
+
+let enemy = null
+
+
+
 
 let playGrid = {x:100,
                 y:100}
 
 
-const enemyModel={}
-
-// $character.x = 0 
-// $character.y = 0
-// $character.style.top = '400px'
-// $character.style.left = '0px'
+ 
 
 
-// character.height= 200
-// character.width =200
-// makeBlock()
-
-// renderGame()
-
-let $character = new makeBlock(3, 3, 'box', 0,0)
-// let $obstacle = new makeBlock(20, 20, 'obstacle', 50, 50)
-
-// let $obstacle2 = new makeBlock(20, 20, 'obstacle', 35, 23)
-// let $obstacle3 = new makeBlock(20, 20, 'obstacle', 15, 13)
-$gamespace.append($character)
-
-function renderObstacle(){    
-    let enemyId = 1
-    for (let i = 0; i<50; i++){
-        let enemyClass = 'food'
-        let newObstacle =  new makeBlock((1), (1), 'obstacle', (Math.random()*95), (Math.random()*95))
-        newObstacle.id =enemyClass + enemyId.toString()
-        newObstacle.classList.add(enemyClass)
-        
-        $gamespace.append(newObstacle)
-        enemyId +=1
-    }
-    enemyId = 1    
+// function makeBlock(height, width, divclass, positionX, positionY){
+//     newBlock = document.createElement('div')
+//     newBlock.className = divclass
+//     newBlock.height = height
+//     newBlock.width = width
+//     newBlock.divclass = divclass    
+//     newBlock.x = positionX
+//     newBlock.y = positionY
+//     newBlock.style.left = (newBlock.x *pixelRatio) +'px'
+//     newBlock.style.top = (newBlock.y * pixelRatio) +'px'
+//     newBlock.style.height = height * pixelRatio +'px'
+//     newBlock.style.width = width*pixelRatio +'px'
+//        return newBlock
+// }
 
 
-    for (let i = 0; i<25; i++){
-        let enemyClass = 'small'
-        let newObstacle =  new makeBlock((5), (5), 'obstacle', (Math.random()*85), (Math.random()*85))
-        newObstacle.id =enemyClass + enemyId.toString()
-        newObstacle.classList.add(enemyClass)
-        
-        $gamespace.append(newObstacle)
-        enemyId +=1
-    }
-    enemyId = 1
-
-    for (let i = 0; i<5; i++){
-        enemyClass = 'medium'
-        let newObstacle =  new makeBlock((10), (10), 'obstacle', (Math.random()*85), (Math.random()*85))
-        newObstacle.id = enemyClass + enemyId.toString()
-        newObstacle.classList.add(enemyClass)
-        $gamespace.append(newObstacle)
-        enemyId +=1
-    }
-    enemyId = 1
-    for (let i = 0; i<5; i++){
-        enemyClass = 'large'
-        let newObstacle =  new makeBlock((15), (15), 'obstacle', (Math.random()*85), (Math.random()*85))
-        newObstacle.id = enemyClass + enemyId.toString()
-        newObstacle.classList.add(enemyClass)
-        $gamespace.append(newObstacle)
-        enemyId +=1
-    }
-    for (let i = 0; i<1; i++){
-        enemyClass = 'verylarge'
-        let newObstacle =  new makeBlock((30), (30), 'obstacle', (Math.random()*85), (Math.random()*85))
-        newObstacle.id = enemyClass + enemyId.toString()
-        newObstacle.classList.add(enemyClass)
-        $gamespace.append(newObstacle)
-        enemyId +=1
-    }
-
-
-    let allObstacles = document.querySelectorAll('.obstacle')
-    
-
-    // console.log(allObstacles.length)
-    overLapRemover(".obstacle")
-    allObstacles = document.querySelectorAll('.obstacle')
-    let verylarge = document.querySelectorAll('.verylarge')
-
-    // console.log(allObstacles.length)    
-    if (allObstacles.length< 50 && verylarge<1){
-        renderObstacle()
-    }
+   
+function Enemy(height, width, enemyId, divclass, enemyClass, positionX, positionY){
+    // this.newBlock = document.createElement('div')
+    this.divclass = divclass
+    this.height = height
+    this.width = width
+    this.enemyClass = enemyClass    
+    this.x = positionX
+    this.y = positionY
+    this.enemyId = enemyId
 }
 
-renderObstacle()
+function createEnemies(number, height, width, enemyId, divclass, enemyClass, positionX, positionY){
+  for(let i = 0; i<number; i++){
+    enemy = new Enemy(height, width, enemyId, divclass, enemyClass, Math.random() * positionX, Math.random() * positionY)
+    Enemies.push(enemy)
+  }
+}
+
+console.log(Enemies)
 
 
-let allObstacles = document.querySelectorAll('.obstacle')
-// let testObstacles= document.querySelectorAll('.obstacle')
+createEnemies(10, 5, 5, 1, 'block', 'medium', 95, 95)
+
+createEnemies(40, 1 , 1, 1, 'block', 'food', 99, 99)
+
+createEnemies(15, 12, 12,1, 'block', 'large', 84, 84)
+
+createEnemies(20,5,5,1,'block', 'small', 95,95)
+
+// console.log(Enemies.length)
+
+console.log(Enemies)
 
 
+function renderBlocks(blocks, divclass){
+  for(let element of document.querySelectorAll(divclass)){
+    element.remove()
+  }
+  console.log(blocks)
+  if (blocks.length>1){
+  console.log('blocks rendered')
+  for (let item of blocks){  
+      console.log(item)
+      console.log(item.classList)
+      let newDiv = document.createElement('div')
+      newDiv.classList.add(item.divclass)
+      e.classList.add(item.enemyClass)
+      item.style.left = item.x * pixelRatio +'px'
+      item.style.top = item.y * pixelRatio +'px'
+      item.style.height = item.height * pixelRatio +'px'
+      item.style.width = item.width *pixelRatio +'px'
+      item.id = blocks.enemyClass+blocks.enemyId
+      blocks.$el = item
+      $gamespace.append(block)
+    }
+  }
+  else {
+    let block = document.createElement('div')
+      block.classList.add(blocks.divclass)
+      block.classList.add(blocks.enemyClass)
+      block.style.left = blocks.x * pixelRatio +'px'
+      block.style.top = blocks.y * pixelRatio +'px'
+      block.style.height = blocks.height * pixelRatio +'px'
+      block.style.width = blocks.width *pixelRatio +'px'
+      block.id = blocks.enemyClass+blocks.enemyId
+      enemy.$el = block
+      $gamespace.append(block)
+  }
+}
+
+overLapRemover(Enemies)
 
 
-
-
+console.log(Enemies)
 
 function overLapRemover(objects){
     let collide = false
     iter = 0
     objectArray =[]
-    object = document.querySelectorAll(objects)
-    for(let i = 0; i<object.length-1; i++){
+    objects = Enemies
+    for(let i = 0; i<objects.length-1; i++){
         iter +=1
-        for (let a =iter; a< object.length; a++) {
-            if (collision(object[i], object[a])){
-                object[i].remove()
+        for (let a =iter; a< objects.length; a++) {
+            if (collision(objects[i], objects[a])){
+                // objects[i].$el.remove()
+                objects.splice(i,1)
+                
                 overLapRemover(objects)
                 collide = true
             }           
@@ -141,43 +149,25 @@ function overLapRemover(objects){
     }
     
 }
-   
 
 
-// function renderGame(){
-//     // $character.classList.add("box")
-//     // const $character = document.querySelector('.box')
-//     const body = document.body
-//     // const $character = new makeBlock(200,200, 'box', 0,0)
-//     $gamespace.append($character)
-//     $obstacle = new makeBlock(50, 50, 'obstacle', 60, 50)
-//     // console.log($obstacle.x + $obstacle.y)
-//     $gamespace.append($obstacle)
-
-// }
-
-
-
-function makeBlock(height, width, divclass, positionX, positionY){
-    newBlock = document.createElement('div')
-    newBlock.className = divclass
-    newBlock.height = height
-    newBlock.width = width
-    newBlock.divclass = divclass    
-    newBlock.x = positionX
-    newBlock.y = positionY
-    newBlock.style.left = (newBlock.x *pixelRatio) +'px'
-    newBlock.style.top = (newBlock.y * pixelRatio) +'px'
-    newBlock.style.height = height * pixelRatio +'px'
-    newBlock.style.width = width*pixelRatio +'px'
-    
-       return newBlock
+function renderChar(block){
+      console.log('running')
+      block = document.createElement('div')
+      block.classList.add(enemy.divclass)
+      block.classList.add(enemy.enemyClass)
+      block.style.left = enemy.x * pixelRatio +'px'
+      block.style.top = enemy.y * pixelRatio +'px'
+      block.style.height = enemy.height * pixelRatio +'px'
+      block.style.width = enemy.width *pixelRatio +'px'
+      block.id = enemy.enemyClass+enemy.enemyId
+      enemy.$el = block
+      $gamespace.append(block)
 }
 
 
 function move(evnt) {
       const keyCode = evnt.keyCode;
-      // console.log(keyCode);
       if ([37, 38, 39, 40].includes(keyCode)) {
         evnt.preventDefault();
       
@@ -195,34 +185,31 @@ function move(evnt) {
           moveDown();
           break;
       }
-        setTimeout(checkEat,600)
+        // setTimeout(Eat,100)
     }
 }
 
 
 function moveLeft() {
-    let potentialMove = Object.assign({}, $character)
+    let potentialMove = Object.assign({}, character)
     potentialMove.x -= moveSpeed
     if (inGrid(potentialMove)){
-        $character.x = potentialMove.x
-        $character.style.left = ($character.x) * pixelRatio +'px' 
-        console.log($character.x)
+        character.x = potentialMove.x
+        $character.style.left = (character.x) * pixelRatio +'px' 
     }
     else{
-        console.log($character.x)
         return
     }
 
 } 
 
 function moveRight() {
-    potentialMove = Object.assign({}, $character)
+    potentialMove = Object.assign({}, character)
     potentialMove.x += moveSpeed
     if (inGrid(potentialMove)){
-        $character.x = potentialMove.x
-        $character.style.left = ($character.x) * pixelRatio +'px' 
-        console.log($character.height)
-        console.log($character.width)
+        character.x = potentialMove.x
+        $character.style.left = (character.x) * pixelRatio +'px' 
+        console.log(character.x)
     }
     else{
         return
@@ -231,12 +218,11 @@ function moveRight() {
 } 
 
 function moveUp() {
-    potentialMove = Object.assign({}, $character)
+    potentialMove = Object.assign({}, character)
     potentialMove.y -= moveSpeed
     if (inGrid(potentialMove)){
-        console.log($character.x)
-        $character.y = potentialMove.y
-        $character.style.top = ($character.y) * pixelRatio +'px' 
+        character.y = potentialMove.y
+        $character.style.top = (character.y) * pixelRatio +'px' 
     }
     else{
         return
@@ -244,12 +230,11 @@ function moveUp() {
 
 } 
 function moveDown() {
-    potentialMove = Object.assign({}, $character)
+    potentialMove = Object.assign({}, character)
     potentialMove.y += moveSpeed
     if (inGrid(potentialMove)){
-        console.log($character.x)
-        $character.y = potentialMove.y
-        $character.style.top = ($character.y) * pixelRatio +'px' 
+        character.y = potentialMove.y
+        $character.style.top = (character.y) * pixelRatio +'px' 
     }
     else{
         return
@@ -259,34 +244,62 @@ function moveDown() {
 
 
 function collision(object1,object2){
-
     if (object1.x < object2.x + object2.width  && object1.x + object1.width  > object2.x &&
             object1.y < object2.y + object2.height && object1.y + object1.height > object2.y) {
+        console.log('collision')
         return true
     }
 }
 
-function checkEat(){
-
-    let obstacles = document.querySelectorAll('.obstacle')
-    for (let obstacle of obstacles){
-        if (collision($character, obstacle))
-            if ($character.height > obstacle.height){
-                obstacle.remove()
-                $character.height += 1
-                $character.width += 1
-                $character.style.height = $character.height*pixelRatio + 'px'
-                $character.style.width =  $character.width * pixelRatio + 'px'
+function Eat(){
+    // let obstacles = document.querySelectorAll('obstacles')
+    let enemy = Enemies
+    for (let i =0;  i<enemy.length; i++){
+        if (collision(character, enemy[i]))
+            if (character.height > Enemies[i].height){
+                Enemies.splice(i,1)
+                character.height += 1
+                character.width += 1
+                $character.style.height = character.height*pixelRatio + 'px'
+                $character.style.width =  character.width * pixelRatio + 'px'
+                console.log($character)
             }
             else{
                 location.reload()
-                
             }
     }
-
 }
 
 
+
+            
+// function checkEat(){
+
+//     let obstacles = document.querySelectorAll('.obstacle')
+//     for (let obstacle of obstacles){
+//         if (collision($character, obstacle)){
+//             if ($character.height > obstacle.height){
+//                 obstacle.remove()
+//                 $character.height += 1
+//                 $character.width += 1
+//                 $character.style.height = $character.height*pixelRatio + 'px'
+//                 $character.style.width =  $character.width * pixelRatio + 'px'
+//             }
+//             else{
+//                 location.reload()
+                
+//             }
+//         }
+//     }
+
+// }
+
+
+function checkWin(){
+  let enemies = Enemies
+  return Enemies.filter((enemy => enemy.height>character.height)).length<=0
+ 
+}
 
 
 function inGrid(object){
@@ -296,3 +309,24 @@ function inGrid(object){
   }
   return true;
 }
+
+
+function update(){
+  
+  renderBlocks(Enemies, '.block')
+  renderBlocks(character, '.box')
+
+
+
+
+  if (checkWin()){
+    setTimeout( function(){
+      alert('You won')
+      location.reload()
+    }, 1500)
+  }
+  else{
+    return
+  }
+}
+setInterval(update, 500)

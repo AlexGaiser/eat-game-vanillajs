@@ -20,7 +20,7 @@
 
 }
 
-.obstacle{
+.block{
 
     /*background-color: red;*/
     position: absolute;
@@ -32,6 +32,9 @@
 .hit{
     background-color: green;
     position: absolute;
+}
+.verylarge{
+    background-color: lemonchiffon;
 }
 .large{
     background-color: tomato;
