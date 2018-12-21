@@ -68,7 +68,8 @@ function renderInitial(){
 overLapRemover(Enemies)
     if (Enemies.length<40){
         renderInitial()
-    }
+      }
+
 renderBlocks(Enemies)
 }
 function move(evnt) {
@@ -242,6 +243,7 @@ function overLapRemover(objects){
             if (checkCollision(objects[i], objects[a])){
                 // objects[i].$el.remove()
                 objects.splice(i,1)        
+                // objects.$el.remove()
                 overLapRemover(objects)
                 collide = true
             }           
@@ -270,7 +272,7 @@ function inGrid(object){
 function checkWin(){
   let enemies = Enemies
   // return Enemies.filter((enemy => enemy.height>character.height)).length<=0
-  return character.height> 30
+  return character.height> 25
 }
 
 function update(){
@@ -295,4 +297,4 @@ function update(){
   }
 }
 // window.requestAnimationFrame(update)
-setInterval(update, 200)
+setInterval(update, 100)
