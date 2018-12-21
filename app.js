@@ -61,17 +61,23 @@ function renderInitial(){
   createEnemies(110, 1 , 1, 1, 'block', 'food', 99, 99)
 
   createEnemies(25, 12, 12,1, 'block', 'large', 74, 74)
+  createEnemies(4, 25, 25,1, 'block', 'large', 74, 74)
 
   createEnemies(20,5,5,1,'block', 'small', 75,75)
-  createEnemies(2, 30,30, 'block', 'veryLarge', 500, 60)
+  // createEnemies(2, 30,30, 'block', 'veryLarge', 500, 60)
 
-
-overLapRemover(Enemies)
+    overLapRemover(Enemies)
+    
     if (Enemies.length<50){
+        renderInitial()
+    }
+    else if(Enemies.filter(enemy => enemy.enemyClass =='large').length <5) {
         renderInitial()
     }
 renderBlocks(Enemies)
 }
+
+
 function move(evnt) {
       const keyCode = evnt.keyCode;
       if ([37, 38, 39, 40].includes(keyCode)) {
@@ -213,6 +219,7 @@ function charCollision(character,objectArray){
     if (checkCollision(character,objectArray[i])){
        if (character.height > objectArray[i].height){
           objectArray[i].$el.remove()
+          
           console.log(objectArray[i].$el)
           console.log(objectArray[i].enemyId)
           // console.log(objectArray[i].$el.parentNode())
@@ -300,4 +307,4 @@ function update(){
   }
 }
 // window.requestAnimationFrame(update)
-setInterval(update, 100)
+// setInterval(update, 100)
