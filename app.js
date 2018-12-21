@@ -1,5 +1,11 @@
 function Game(){
+  
   document.body.addEventListener('keydown',move)
+  let pop = new Audio('pop.wav')
+  let eat = new Audio('slurp1.wav')
+  eat.volume = 0.3
+  let ambient = new Audio('wobble-01.wav')
+  // ambient.volume = .05
   try{
     let $button = document.querySelector('.btn')
     $button.remove()
@@ -154,6 +160,7 @@ function Game(){
   }
 
   function moveEnemies (enemies){
+      ambient.play()
       let modifyX;
       let modifyY;
       enemies = enemies.filter(a => a.enemyClass !='food')
@@ -203,6 +210,7 @@ function Game(){
     for (let i =0;  i<objectArray.length; i++){    
       if (checkCollision(character,objectArray[i])){
          if (character.height > objectArray[i].height){
+            eat.play()
             objectArray[i].$el.remove()
             objectArray.splice(i,1)
 
@@ -212,8 +220,10 @@ function Game(){
             character.$el.style.width = (character.width * pixelRatio) +'px'
          }
          else{
-          debugger
-          location.reload()
+          pop.play()
+
+          // debugger
+          setTimeout(function(){location.reload()},300)
          }
       }
     }
