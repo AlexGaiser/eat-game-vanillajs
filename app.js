@@ -4,7 +4,7 @@ console.log('start')
 const $gamespace = document.querySelector('.game-board')
 const moveSpeed = 2
 const pixelRatio = 6
-const moveIncrement = 1
+const moveIncrement = 2
 const Enemies = []
 const character = new Enemy(2,2,1,'box', 'character', 0,0)
 
@@ -63,9 +63,11 @@ function renderInitial(){
   createEnemies(25, 12, 12,1, 'block', 'large', 74, 74)
 
   createEnemies(20,5,5,1,'block', 'small', 75,75)
+  createEnemies(2, 30,30, 'block', 'veryLarge', 500, 60)
+
 
 overLapRemover(Enemies)
-    if (Enemies.length<20){
+    if (Enemies.length<50){
         renderInitial()
     }
 renderBlocks(Enemies)
@@ -255,6 +257,11 @@ function overLapRemover(objects){
     
 }
 
+// function enemyCollision(objects){
+
+// }
+
+
 
 function inGrid(object){
    if (object.x < 0 || object.y < 0 || object.x +object.height > 100 || object.y +object.height> 100) {
@@ -293,4 +300,4 @@ function update(){
   }
 }
 // window.requestAnimationFrame(update)
-setInterval(update, 550)
+setInterval(update, 100)
