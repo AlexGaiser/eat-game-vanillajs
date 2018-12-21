@@ -15,5 +15,5 @@ Video Presention:
 https://youtu.be/iJwcSKP8riU
 
 Sources:
-Collision Detection algorithm
+Collision Detection algorithm:
 https://developer.mozilla.org/en-US/docs/Games/Techniques/2D_collision_detection
