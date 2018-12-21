@@ -4,7 +4,7 @@ console.log('start')
 const $gamespace = document.querySelector('.game-board')
 const moveSpeed = 2
 const pixelRatio = 6
-const moveIncrement = 2
+const moveIncrement = 1
 const Enemies = []
 const character = new Enemy(2,2,1,'box', 'character', 0,0)
 
@@ -35,7 +35,6 @@ renderInitial()
 
 
 function Enemy(height, width, enemyId, divclass, enemyClass, positionX, positionY){
-    // this.newBlock = document.createElement('div')
     this.divclass = divclass
     this.height = height
     this.width = width
@@ -56,28 +55,22 @@ function createEnemies(number, height, width, enemyId, divclass, enemyClass, pos
 console.log(Enemies)
 
 function renderInitial(){
-  createEnemies(30, 10, 10, 1, 'block', 'medium', 89, 89)
+  createEnemies(20, 10, 10, 1, 'block', 'medium', 89, 89)
+  createEnemies(10, 7 , 7, 1, 'block', 'small', 90, 90)
 
-  createEnemies(110, 1 , 1, 1, 'block', 'food', 99, 99)
 
-  createEnemies(25, 12, 12,1, 'block', 'large', 74, 74)
-  createEnemies(4, 25, 25,1, 'block', 'large', 74, 74)
+  createEnemies(50, 1 , 1, 1, 'block', 'food', 99, 99)
 
-  createEnemies(20,5,5,1,'block', 'small', 75,75)
-  // createEnemies(2, 30,30, 'block', 'veryLarge', 500, 60)
+  createEnemies(25, 15, 15,1, 'block', 'large', 74, 74)
 
-    overLapRemover(Enemies)
-    
-    if (Enemies.length<50){
-        renderInitial()
-    }
-    else if(Enemies.filter(enemy => enemy.enemyClass =='large').length <5) {
+  createEnemies(10,5,5,1,'block', 'small', 75,75)
+
+overLapRemover(Enemies)
+    if (Enemies.length<40){
         renderInitial()
     }
 renderBlocks(Enemies)
 }
-
-
 function move(evnt) {
       const keyCode = evnt.keyCode;
       if ([37, 38, 39, 40].includes(keyCode)) {
@@ -219,7 +212,6 @@ function charCollision(character,objectArray){
     if (checkCollision(character,objectArray[i])){
        if (character.height > objectArray[i].height){
           objectArray[i].$el.remove()
-          
           console.log(objectArray[i].$el)
           console.log(objectArray[i].enemyId)
           // console.log(objectArray[i].$el.parentNode())
@@ -228,8 +220,8 @@ function charCollision(character,objectArray){
           // $element.remove()
           objectArray.splice(i,1)
 
-          character.height +=1
-          character.width += 1
+          character.height +=.5
+          character.width += .5
           character.$el.style.height = (character.height * pixelRatio) +'px'
           character.$el.style.width = (character.width * pixelRatio) +'px'
        }
@@ -264,11 +256,6 @@ function overLapRemover(objects){
     
 }
 
-// function enemyCollision(objects){
-
-// }
-
-
 
 function inGrid(object){
    if (object.x < 0 || object.y < 0 || object.x +object.height > 100 || object.y +object.height> 100) {
@@ -282,7 +269,8 @@ function inGrid(object){
 
 function checkWin(){
   let enemies = Enemies
-  return Enemies.filter((enemy => enemy.height>character.height)).length<=0
+  // return Enemies.filter((enemy => enemy.height>character.height)).length<=0
+  return character.height> 30
 }
 
 function update(){
@@ -307,4 +295,4 @@ function update(){
   }
 }
 // window.requestAnimationFrame(update)
-// setInterval(update, 100)
+setInterval(update, 200)
