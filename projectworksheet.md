@@ -142,14 +142,10 @@ This function recursively eliminates any blocks with the given parameters which 
 ```
 
 ## Change Log
- Use this section to document what changes were made and the reasoning behind those changes.  
-There were many changes, including two major refactorings resulting from a change in data model. There were also many additional refactorings to clean the codebase.
-
+Model one, purely Dom based approach. 
+Model two, purely object based approach with frame rendering set to interval.
+Model three, hybrid of model one and model two: setting elements to objects and manipulating objects. 
 
 ## Issues and Resolutions
- Use this section to list of all major issues encountered and their resolution.
-Most issues stemmed from the change in implementation philosphy to better separate view and model according to best practices. 
-The majority of the code implemented is simple and functional in concept. It would benefit from a complete overhaul with a more unified/elegent.
-#### SAMPLE.....
-**ERROR**: app.js:34 Uncaught SyntaxError: Unexpected identifier                                
-**RESOLUTION**: Missing comma after first object in sources {} object
+Many bugs related to the above function, resolved by removing the feature. 
+Bugs related to refactors, solved by completing the refactor. 
