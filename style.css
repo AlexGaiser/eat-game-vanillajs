@@ -1,14 +1,40 @@
+h1{
+    background-color: tomato;
+    color: #247BA0;
+    padding: 10px;
+    font-size:40px;
+    border-radius: 15%;
+    width: 300px;
+    text-align: center;
+    text-decoration: underline;
+    border: 5px #247BA0 solid;
+    margin: 4px;
+}
+
+#title {
+    background-color: white;
+    
+}
+.fade{
+    animation-name: fadeOutOpacity;
+    animation-iteration-count: 1;
+    animation-timing-function: ease-in;
+    animation-duration: 1.5s;
+}
 .container{
     display: flex;
     flex-direction: column;
     align-items: center;
+
 }
 .game-board{
     height: 600px;
     width: 600px;
-    background-color: lightgrey;
+    background-image: url('bubbles.jpg');
+    background-size: cover;
     position: relative;
-    /*margin: 0 auto;*/
+    border: tomato 4px solid;
+    margin: 0px;
 }
 
 .box{
@@ -18,6 +44,7 @@
     position: absolute;
     border-radius: 100%;
     transition: all .2s ease-in-out;
+    border: white dotted 1px;
 }
 
 .block{
@@ -25,9 +52,11 @@
     border-radius: 100%;
     /*background-color: red;*/
     position: absolute;
+    border:3px grey dashed;
 }
 .food{
     background-color: #247BA0 !important;
+    border:2px solid lightgrey !important;
 }
 
 .hit{  
@@ -44,6 +73,41 @@
     background-color: #30BCED;
 }
 .small{
-    
     background-color: #386150;
+}
+
+.btn {
+   height:200px;
+   width: 200px;
+   border-radius: 100%;
+  top: 0;
+  left: 0;
+  transition: all .15s linear 0s;
+  position: relative;
+  display: inline-block;
+  padding: 15px 25px;
+  background-color: #247BA0;
+  margin-top: 130px;
+  text-transform: uppercase;
+  font-family: arial;
+  letter-spacing: 1px;
+  font-size: 30px;
+  color: lemonchiffon;
+  border:6px grey dashed;
+}
+  
+  .btn:hover {
+    top: 3px;
+    left: -3px;
+}
+
+
+
+@keyframes fadeOutOpacity {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
 }
