@@ -7,9 +7,7 @@
           iter +=1
           for (let a =iter; a< objects.length; a++) {
               if (checkCollision(objects[i], objects[a])){
-                  // objects[i].$el.remove()
                   objects.splice(i,1)        
-                  // objects.$el.remove()
                   overLapRemover(objects)
                   collide = true
               }           

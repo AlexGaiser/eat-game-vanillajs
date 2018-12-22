@@ -5,7 +5,7 @@ function Game(){
   let eat = new Audio('slurp1.wav')
   eat.volume = 0.3
   let ambient = new Audio('wobble-01.wav')
-  // ambient.volume = .05
+  // ambient.volume = 2
   try{
     let $button = document.querySelector('.btn')
     $button.remove()
