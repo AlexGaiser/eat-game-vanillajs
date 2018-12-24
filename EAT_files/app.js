@@ -48,6 +48,8 @@ function Game(){
       this.y = positionY
       this.enemyId = enemyId
       this.radius = height/2
+      this.centerx = this.radius + positionX
+      this.centery = this.radius + positionY
   }
 
   function createEnemies(number, height, width, enemyId, divclass, enemyClass, positionX, positionY){
@@ -59,12 +61,12 @@ function Game(){
   }
 
   function renderInitial(){
-    createEnemies(10, 10, 10, 1, 'block', 'medium', 89, 89)
-    createEnemies(12, 5 , 5, 1, 'block', 'small', 90, 90)
+    // createEnemies(10, 10, 10, 1, 'block', 'medium', 89, 89)
+    // createEnemies(12, 5 , 5, 1, 'block', 'small', 90, 90)
     createEnemies(5, 12, 12, 1, 'block', 'medium', 85, 85)
-    createEnemies(8, 8 , 8, 1, 'block', 'small', 90, 90)
-    createEnemies(40, 1 , 1, 1, 'block', 'food', 99, 99)
-    createEnemies(5, 15, 15,1, 'block', 'large', 74, 74)
+    // createEnemies(8, 8 , 8, 1, 'block', 'small', 90, 90)
+    // createEnemies(40, 1 , 1, 1, 'block', 'food', 99, 99)
+    // createEnemies(5, 15, 15,1, 'block', 'large', 74, 74)
     createEnemies(1, 20, 20,1, 'block', 'verylarge', 74, 74)
 
   renderBlocks(Enemies)
@@ -89,6 +91,7 @@ function Game(){
             moveDown();
             break;
         }
+      charCollision(character, Enemies)
       }
   }
   function moveLeft() {
@@ -101,6 +104,7 @@ function Game(){
       else{
           return
       }
+
   } 
   function moveRight() {
       potentialMove = Object.assign({}, character)
@@ -112,6 +116,7 @@ function Game(){
       else{
           return
       }
+
   } 
   function moveUp() {
       potentialMove = Object.assign({}, character)
@@ -197,16 +202,23 @@ function Game(){
 
 
   function checkCollision(object1, object2){
-        // if(circleMode = true){
+    
+        // var dx = circle1.x - circle2.x;
+        // var dy = circle1.y - circle2.y;
+        // var distance = Math.sqrt(dx * dx + dy * dy);
 
+        // if (distance < circle1.radius + circle2.radius) {
+        //       debugger
+        //       return true
+        // }
+  
 
-
-        let dx = (object1.x + object1.radius) - (object2.x + object2.radius);
-        let dy = (object1.y + object1.radius) - (object2.y + object2.radius);
+        let dx = object1.centerx - object2.centerx;
+        let dy = object1.centery - object2.centery;
         let distance = Math.sqrt(dx * dx + dy * dy);
-        
-        // console.log('char' + (object1.x + object1.radius)+ ':'+ (object1.y + object1.radius))
+
         if (distance < object1.radius + object2.radius) {
+            debugger
             return true
         }
         // if (object1.x < object2.x + object2.width  && object1.x + object1.width  > object2.x &&
@@ -226,15 +238,12 @@ function Game(){
 
             character.height +=.5
             character.width += .5
-            character.radius += .25
             character.$el.style.height = (character.height * pixelRatio) +'px'
             character.$el.style.width = (character.width * pixelRatio) +'px'
          }
          else{
-          
-          // debugger
-
-          setTimeout(function(){location.reload()},1000)
+          alert('collision')
+          // setTimeout(function(){location.reload()},1000)
          }
       }
     }
@@ -276,7 +285,7 @@ function Game(){
     }
   }
   let gameUpdate = setInterval(update, 600)
-  setInterval(function(){charCollision(character, Enemies)}, 5)
+  // setInterval(function(){charCollision(character, Enemies)},300)
 
 }
 function startGame(){
