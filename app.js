@@ -1,20 +1,27 @@
+let circleMode = true
+console.log(circleMode)
 function Game(){
   
   document.body.addEventListener('keydown',move)
-  // let pop = new Audio('pop.wav')
-  // let eat = new Audio('slurp1.wav')
-  // eat.volume = 0.3
-  // let ambient = new Audio('wobble-01.wav')
+  let pop = new Audio('pop.wav')
+  let eat = new Audio('slurp1.wav')
+  eat.volume = 0.3
+  let ambient = new Audio('wobble-01.wav')
   // ambient.volume = 2
   try{
     let $button = document.querySelector('.btn')
     $button.remove()
   }
   catch{}
+    let $modeButtons = document.querySelectorAll('.gamemode')
+    for(let button of $modeButtons){
+      console.log(button)
+      button.remove()
+    }
   const $gamespace = document.querySelector('.game-board')
-  const moveSpeed = 1
+  let moveSpeed = 1
   const pixelRatio = 6
-  const moveIncrement = .25
+  let moveIncrement = .25
   const Enemies = []
   const character = new Enemy(2,2,1,'box', 'character', 0,0)
 
@@ -27,6 +34,10 @@ function Game(){
         $character.style.width = character.width *pixelRatio +'px'
         $character.id = character.enemyClass+character.enemyId
         $character.$el = character
+        
+        if (circleMode===true){
+          $character.style.borderRadius="100%"
+        }
 
   character.$el = $character
 
@@ -74,7 +85,7 @@ function Game(){
         const keyCode = evnt.keyCode;
         if ([37, 38, 39, 40].includes(keyCode)) {
           evnt.preventDefault();
-        
+
         switch (keyCode) {
           case 37:  
             moveLeft(); 
@@ -150,13 +161,17 @@ function Game(){
         $item.style.width = item.width *pixelRatio +'px'
         $item.id = item.enemyId
         $gamespace.append($item)
+        if (circleMode===true){
+          $item.style.borderRadius = '100%'
+        }
         item.$el = $item
       }
+
     }
   }
 
   function moveEnemies (enemies){
-      // ambient.play()
+      ambient.play()
       let modifyX;
       let modifyY;
       enemies = enemies.filter(a => a.enemyClass !='food')
@@ -197,42 +212,40 @@ function Game(){
 
 
   function checkCollision(object1, object2){
-        // if(circleMode = true){
-
-
-
-        let dx = (object1.x + object1.radius) - (object2.x + object2.radius);
-        let dy = (object1.y + object1.radius) - (object2.y + object2.radius);
-        let distance = Math.sqrt(dx * dx + dy * dy);
-        
-        // console.log('char' + (object1.x + object1.radius)+ ':'+ (object1.y + object1.radius))
-        if (distance < object1.radius + object2.radius) {
-            return true
+        if(circleMode === true){
+          let dx = (object1.x + object1.radius) - (object2.x + object2.radius);
+          let dy = (object1.y + object1.radius) - (object2.y + object2.radius);
+          let distance = Math.sqrt(dx * dx + dy * dy);
+          
+          if (distance < object1.radius + object2.radius) {
+              return true
+              }
+          }
+          else if(circleMode===false){
+          if (object1.x < object2.x + object2.width  && object1.x + object1.width  > object2.x &&
+                  object1.y < object2.y + object2.height && object1.y + object1.height > object2.y) {
+              return true
+          }
         }
-        // if (object1.x < object2.x + object2.width  && object1.x + object1.width  > object2.x &&
-        //         object1.y < object2.y + object2.height && object1.y + object1.height > object2.y) {
-        //     debugger
-        //     return true
-        // }
       }
-
   function charCollision(character,objectArray){
     for (let i =0;  i<objectArray.length; i++){    
       if (checkCollision(character,objectArray[i])){
          if (character.height > objectArray[i].height){
-            // eat.play()
+            eat.play()
             objectArray[i].$el.remove()
             objectArray.splice(i,1)
 
             character.height +=.5
             character.width += .5
             character.radius += .25
+            // moveSpeed += .05
+            // moveIncresment +=.01
             character.$el.style.height = (character.height * pixelRatio) +'px'
             character.$el.style.width = (character.width * pixelRatio) +'px'
          }
          else{
           
-          // debugger
 
           setTimeout(function(){location.reload()},1000)
          }
@@ -247,14 +260,10 @@ function Game(){
     }
     return true
   }
-
-
-
   function checkWin(){
     let enemies = Enemies.filter(a => a.enemyClass !='food')  
-    return Enemies.length <=0
+    return enemies.length <=0
   }
-
   function update(){
     moveEnemies(Enemies)
     isFood(Enemies)
@@ -292,3 +301,10 @@ function startGame(){
   setTimeout(function(){$button.remove()}, 1500)
   setTimeout(Game, 1505)
 } 
+
+function circleModeOn(){
+    circleMode = true
+}
+function circleModeOff(){
+    circleMode = false
+}
