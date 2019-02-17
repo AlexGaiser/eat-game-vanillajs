@@ -1,7 +1,5 @@
 let circleMode = true
-console.log(circleMode)
 function Game(){
-  
   document.body.addEventListener('keydown',move)
   let pop = new Audio('pop.wav')
   let eat = new Audio('slurp1.wav')
@@ -39,6 +37,7 @@ function Game(){
           $character.style.borderRadius="100%"
         }
 
+  
   character.$el = $character
 
   $gamespace.append($character)
@@ -246,8 +245,8 @@ function Game(){
          }
          else{
           
-
-          setTimeout(function(){location.reload()},1000)
+          pop.play()
+          setTimeout(function(){location.reload()},500)
          }
       }
     }
@@ -284,7 +283,7 @@ function Game(){
       return
     }
   }
-  let gameUpdate = setInterval(update, 600)
+  let gameUpdate = setInterval(update, 10)
   setInterval(function(){charCollision(character, Enemies)}, 5)
 
 }
