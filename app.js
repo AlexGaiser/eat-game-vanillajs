@@ -283,7 +283,7 @@ function Game(){
       return
     }
   }
-  let gameUpdate = setInterval(update, 10)
+  let gameUpdate = setInterval(update, 500)
   setInterval(function(){charCollision(character, Enemies)}, 5)
 
 }
